@@ -539,6 +539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialSummaryFloorTile: {fileID: 816454943}
   canvas: {fileID: 1088446381}
+  isActive: 0
 --- !u!1001 &724260321
 Prefab:
   m_ObjectHideFlags: 0
@@ -609,6 +610,7 @@ GameObject:
   - component: {fileID: 816454947}
   - component: {fileID: 816454946}
   - component: {fileID: 816454945}
+  - component: {fileID: 816454949}
   m_Layer: 5
   m_Name: SummaryTile
   m_TagString: SummaryTile
@@ -722,6 +724,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 816454943}
   m_CullTransparentMesh: 0
+--- !u!225 &816454949
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 816454943}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &836796610
 GameObject:
   m_ObjectHideFlags: 0

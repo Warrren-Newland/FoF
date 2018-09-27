@@ -5,6 +5,7 @@ public class SummaryController : MonoBehaviour {
 
     public GameObject initialSummaryFloorTile;
     public Canvas canvas;
+    public bool isActive;
 
     private GameObject clone;
     GameObject floorSummaryTile;
