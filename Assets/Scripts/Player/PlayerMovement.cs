@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public TurnManager turnManager;
+    public PlayerController playerController;
+
+    private TurnManager turnManager;
+    private SummaryController summaryController;
     float t;
     Vector3 startPosition;
     Vector3 target;
@@ -12,9 +13,11 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 destination;
     private Animator animator;
 
+
     void Start()
     {
         turnManager = GameObject.Find("GameManager").GetComponent<TurnManager>();
+        summaryController = GameObject.Find("GameManager").GetComponent<SummaryController>();
         animator = GetComponentInChildren<Animator>();
         startPosition = target = transform.position;
     }
@@ -27,8 +30,9 @@ public class PlayerMovement : MonoBehaviour {
     public void SetDestination(string destinationName, float time)
     {
         Debug.Log("INCOMING: " + destinationName);
+        summaryController.AssignPlayerToSummaryTile(destinationName, playerController.name, playerController.currentFloorTile);
         destination = GameObject.Find(destinationName).GetComponent<Transform>().position;
-        Vector3 newPosition = new Vector3(destination.x, destination.y + 1.5f, destination.z);
+        Vector3 newPosition = new Vector3(destination.x, destination.y + 1f, destination.z);
         t = 0;
         startPosition = transform.position;
         timeToReachTarget = time;

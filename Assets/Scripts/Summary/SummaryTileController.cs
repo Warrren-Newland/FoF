@@ -8,12 +8,14 @@ public class SummaryTileController : MonoBehaviour,IPointerClickHandler{
     private GameObject gameManager;
     private TurnManager turnManager;
     private PlayerMovement playerMovement;
+    private FloorGenerator floorGenerator;
 
     private void Awake()
     {
         name = transform.name;
         gameManager = GameObject.FindGameObjectWithTag("Manager");
         turnManager = gameManager.GetComponent<TurnManager>();
+        floorGenerator = gameManager.GetComponent<FloorGenerator>();
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
@@ -26,10 +28,10 @@ public class SummaryTileController : MonoBehaviour,IPointerClickHandler{
         if (pointerEventData.button == PointerEventData.InputButton.Left)
         {
             string playerName = "player " + turnManager.currentPlayerTurn;
-            Debug.Log("NAME: " + playerName);
             GameObject Player = GameObject.Find(playerName);
             playerMovement = Player.GetComponent<PlayerMovement>();
             playerMovement.SetDestination(name, 1f);
+            turnManager.NextTurn();
         }        
     }
 }

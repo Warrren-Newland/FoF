@@ -18,6 +18,7 @@ public class FloorGenerator : MonoBehaviour {
     public PowerupGenerator powerupGenerator;
     public List<string> selectedMoves;
 
+    GameObject floorSummaryTilePowerup;
     GameObject floorTilePowerup;
     FloorController floorTileController;
     Material material;
@@ -30,10 +31,11 @@ public class FloorGenerator : MonoBehaviour {
         selectedMoves = new List<string>();
         SetUpSummary();
         BuildFloor();
+        summaryController.buildSummary(floorTileSummaries);
+        powerupGenerator.fillPowerUpList();
         GenerateInitialPowerUps();
         BuildPlayers();
         BuildUnitFrames();
-        summaryController.buildSummary(floorTileSummaries);
         StartTurns();
     }
 
@@ -68,12 +70,20 @@ public class FloorGenerator : MonoBehaviour {
         floorTileController = floorTilePowerup.GetComponent<FloorController>();
         floorTileController.hasPowerUp = true;
         PowerUp power = powerupGenerator.generateRandomPowerUp();
-        Debug.Log("making power: " + power + " at " + floorTilePowerup.name);
+        AssignPowerupToSummaryTile(name, power);
         setPowerupColorOfTile(power.color);
         floorTileController.powerUp = power;
     }
 
-    private void setPowerupColorOfTile(string color)
+    private void AssignPowerupToSummaryTile(string name, PowerUp power)
+    {
+        name = "summary tile " + name;
+        floorSummaryTilePowerup= GameObject.Find(name);
+        setPowerupColorOfTile(power.color, true);
+        floorTileController.powerUp = power;
+    }
+
+    private void setPowerupColorOfTile(string color, bool isSummaryTile =false)
     {
         Color instatiatedColor;
         switch (color)
@@ -87,12 +97,28 @@ public class FloorGenerator : MonoBehaviour {
             case "green":
                 instatiatedColor = Color.green;
                 break;
+            case "orange":
+                instatiatedColor = new Color(0.2F, 0.3F, 0.4F);
+                break;
+            case "yellow":
+                instatiatedColor = Color.yellow;
+                break;
             default:
                 instatiatedColor = Color.black;
                 break;
         }
-        material = floorTilePowerup.GetComponent<Renderer>().material;
-        material.color = instatiatedColor;
+        if (isSummaryTile)
+        {
+            Button button = floorSummaryTilePowerup.GetComponent<Button>();
+            ColorBlock colors = button.colors;
+            colors.normalColor =instatiatedColor;
+            button.colors = colors;
+        }
+        else
+        {
+            material = floorTilePowerup.GetComponent<Renderer>().material;
+            material.color = instatiatedColor;
+        }
     }
 
     private void SetUpSummary()
@@ -185,7 +211,7 @@ public class FloorGenerator : MonoBehaviour {
         Vector3 position = tileTransform.position;
         Vector3 scale = playerTransform.localScale;
         Quaternion rotation = playerTransform.rotation;
-        Vector3 newPosition = new Vector3(tileTransform.position.x, tileTransform.position.y +1.5f, tileTransform.position.z);
+        Vector3 newPosition = new Vector3(tileTransform.position.x, tileTransform.position.y +1f, tileTransform.position.z);
         clone = Instantiate(player, newPosition, rotation);
         clone.name = id;
     }
