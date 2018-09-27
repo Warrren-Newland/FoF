@@ -10,10 +10,12 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 target;
     float timeToReachTarget;
     Vector3 destination;
+    private Animator animator;
 
     void Start()
     {
         turnManager = GameObject.Find("GameManager").GetComponent<TurnManager>();
+        animator = GetComponentInChildren<Animator>();
         startPosition = target = transform.position;
     }
     void Update()
@@ -24,11 +26,13 @@ public class PlayerMovement : MonoBehaviour {
     }
     public void SetDestination(string destinationName, float time)
     {
+        Debug.Log("INCOMING: " + destinationName);
         destination = GameObject.Find(destinationName).GetComponent<Transform>().position;
-        Vector3 newPosition = new Vector3(destination.x, destination.y + 1, destination.z);
+        Vector3 newPosition = new Vector3(destination.x, destination.y + 1.5f, destination.z);
         t = 0;
         startPosition = transform.position;
         timeToReachTarget = time;
+        animator.SetTrigger("Jump");
         target = newPosition;
     }
 }

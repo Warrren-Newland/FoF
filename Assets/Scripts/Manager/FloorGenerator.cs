@@ -22,15 +22,18 @@ public class FloorGenerator : MonoBehaviour {
     FloorController floorTileController;
     Material material;
     private GameObject clone;
+    private SummaryController summaryController;
 
     private void Awake()
     {
+        summaryController = GetComponentInParent<SummaryController>();
         selectedMoves = new List<string>();
         SetUpSummary();
         BuildFloor();
         GenerateInitialPowerUps();
         BuildPlayers();
         BuildUnitFrames();
+        summaryController.buildSummary(floorTileSummaries);
         StartTurns();
     }
 
@@ -85,7 +88,7 @@ public class FloorGenerator : MonoBehaviour {
                 instatiatedColor = Color.green;
                 break;
             default:
-                instatiatedColor = Color.clear;
+                instatiatedColor = Color.black;
                 break;
         }
         material = floorTilePowerup.GetComponent<Renderer>().material;
@@ -182,7 +185,7 @@ public class FloorGenerator : MonoBehaviour {
         Vector3 position = tileTransform.position;
         Vector3 scale = playerTransform.localScale;
         Quaternion rotation = playerTransform.rotation;
-        Vector3 newPosition = new Vector3(tileTransform.position.x, tileTransform.position.y +1, tileTransform.position.z);
+        Vector3 newPosition = new Vector3(tileTransform.position.x, tileTransform.position.y +1.5f, tileTransform.position.z);
         clone = Instantiate(player, newPosition, rotation);
         clone.name = id;
     }

@@ -7,6 +7,7 @@ TagManager:
   - Selectable
   - Floor
   - Manager
+  - Model
   layers:
   - Default
   - TransparentFX

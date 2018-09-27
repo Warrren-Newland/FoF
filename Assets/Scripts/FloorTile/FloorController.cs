@@ -22,6 +22,7 @@ public class FloorController : MonoBehaviour {
     private void Awake()
     {
         manager = GameObject.FindGameObjectWithTag("Manager");
+        myMaterial = GetComponent<Renderer>().material;
         turnManager = manager.GetComponentInParent<TurnManager>();
         floorGenerator= manager.GetComponentInParent<FloorGenerator>();
         scoreKeeper = manager.GetComponentInParent<ScoreKeeper>();
@@ -56,6 +57,8 @@ public class FloorController : MonoBehaviour {
             if(match != null)
             {
                 player = GameObject.Find(other.name);
+                Animator animator = player.GetComponentInChildren<Animator>();
+                animator.ResetTrigger("Jump");
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 playerController.activateWeapon();
                 activateFloorTile(other.name);
@@ -86,24 +89,31 @@ public class FloorController : MonoBehaviour {
                     Debug.Log("DANGER POWER UP " + playerName);
                     Danger danger = (Danger) powerUp;
                     scoreKeeper.updatePlayerHealth(playerName, -danger.damage);
+                    resetFloorTilePowerup();
                     break;
                 case "Heal":
                     Debug.Log("HEAL POWER UP " + playerName);
                     Heal heal = (Heal)powerUp;
                     scoreKeeper.updatePlayerHealth(playerName, heal.health);
+                    resetFloorTilePowerup();
                     break;
                 case "Weapon":
                     Debug.Log("WEAPON POWER UP " + playerName);
                     Weapon weapon = (Weapon) powerUp;
                     playerController.weapon = weapon;
+                    resetFloorTilePowerup();
                     break;
                 default:
                     break;
             }
-            powerUp = null;
-            hasPowerUp = false;
-            myMaterial.color = Color.clear;
         }
+    }
+
+    private void resetFloorTilePowerup()
+    {
+        powerUp = null;
+        hasPowerUp = false;
+        myMaterial.color = Color.black;
     }
 
     private void OnMouseDown()
