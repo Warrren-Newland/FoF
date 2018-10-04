@@ -32,8 +32,6 @@ public class TurnManager : MonoBehaviour
         {
             currentPlayerTurn = 1;
         }
-
-        Debug.Log("currentPlayerTurn: " + currentPlayerTurn);
         updateFloorSelectable();
     }
 

@@ -49,7 +49,6 @@ public class ToggleSummary : MonoBehaviour, IPointerClickHandler
             }
             canvasGroup.interactable = active;
             canvasGroup.blocksRaycasts = active;
-            //button.SetActive(active);
         }
         isActive = active;
         summaryController.isActive = active;
